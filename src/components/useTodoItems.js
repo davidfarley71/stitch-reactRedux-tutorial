@@ -75,8 +75,12 @@ export function useTodoItems(userId) {
   const [state, dispatch] = React.useReducer(todoReducer, { todos: [] });
   // Todo Actions
   const loadTodos = async () => {
-    const todos = await items.find({}, { limit: 1000 }).asArray();
+    const todos = await items.find({}, {limit: 1000}).asArray();
+    console.log("loadTodos -> todos", todos)
     dispatch({ type: "setTodos", payload: { todos } });
+
+    const temp = await items.aggregate([{$limit: 2}, {$sort:{qty: 1}}]).toArray();
+    console.log("loadTodos -> temp", temp)
   };
   const addTodo = async task => {
     const todo = { task, owner_id: userId };
