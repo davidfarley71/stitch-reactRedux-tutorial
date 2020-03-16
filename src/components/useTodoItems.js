@@ -83,6 +83,8 @@ export function useTodoItems(userId) {
     console.log("loadTodos -> temp", temp)
   };
   const addTodo = async task => {
+    const type = typeof task;
+    console.log("useTodoItems -> type", type)
     const todo = { task, owner_id: userId };
     const result = await items.insertOne(todo);
     dispatch({ type: "addTodo", payload: { ...todo, _id: result.insertedId } });
